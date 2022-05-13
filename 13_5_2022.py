@@ -1,12 +1,12 @@
-import re
-from statistics import mode
-from tarfile import TarError
+from sklearn import datasets
 from sklearn.datasets import load_diabetes
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import numpy as np
 import math
+
+from sklearn.model_selection import train_test_split
 
 diabetes = load_diabetes()
 bmi = diabetes.data[:, 2]
@@ -69,10 +69,10 @@ for i in range(100):
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score, mean_squared_error
 
-reg = LinearRegression().fit(bmi[:, np.newaxis], target)
-# print(reg.coef_, reg.intercept_)
+# reg = LinearRegression().fit(bmi[:, np.newaxis], target)
+# # print(reg.coef_, reg.intercept_)
 
-errarray = target - myline(bmi, reg.coef_[0], reg.intercept_)
+# errarray = target - myline(bmi, reg.coef_[0], reg.intercept_)
 # sns.distplot(errarray)
 # f, ax = plt.subplots()
 # ax.plot(lsta)
@@ -85,4 +85,42 @@ errarray = target - myline(bmi, reg.coef_[0], reg.intercept_)
 
 def r2(tgt, model):
     return 1-sse(tgt, model)/sse(tgt, tgt.mean())
-print(r2(target, myline(bmi, reg.coef_[0], reg.intercept_)))
+# print(r2(target, myline(bmi, reg.coef_[0], reg.intercept_)))
+
+# bmi_train, bmi_test, tar_train, tar_test = train_test_split(bmi[:, np.newaxis], target)
+# reg = LinearRegression().fit(bmi_train, tar_train)
+# pred = reg.predict(bmi_test)
+# print(pred[:10])
+# print(tar_test[:10])
+
+############
+linn = datasets.load_linnerud()
+# print(linn)
+# f, ax = plt.subplots()
+# sns.heatmap(pd.DataFrame(linn.data).corr(), annot=True)
+# plt.show()
+
+c = linn.data[:, 0]
+t = linn.target[:, 0]
+# sns.distplot(c)
+# plt.show()
+
+x_train, x_test, y_train, y_test = train_test_split(c[:, np.newaxis], t)
+reg = LinearRegression().fit(x_train, y_train)
+# print(reg.coef_[0], reg.intercept_)
+# pred = reg.predict(x_test)
+# print(pred[:10])
+# print(y_test[:10])
+# f, ax = plt.subplots()
+# ax.scatter(c, t)
+# ax.plot([2, 16], [(x*reg.coef_[0])+reg.intercept_ for x in [2, 16]])
+# plt.show()
+# print(r2_score(t, [(x*reg.coef_[0])+reg.intercept_ for x in c]))
+
+target = linn.target
+x_train, x_test, y_train, y_test = train_test_split(linn.data, target)
+reg = LinearRegression().fit(x_train, y_train)
+# print(reg.coef_[0], reg.intercept_)
+pred = reg.predict(x_test)
+print(pred[:10])
+print(y_test[:10])
