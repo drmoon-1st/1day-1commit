@@ -1,4 +1,5 @@
 import re
+from statistics import mode
 from tarfile import TarError
 from sklearn.datasets import load_diabetes
 import matplotlib.pyplot as plt
@@ -40,27 +41,48 @@ def back_prop(x, y, a=1.0, b=1.0):
     b = b+1*er
     return a, b
 
+def sse(tgt, model):
+    return ((tgt-model)**2).sum()
+
+def mse(tgt, model):
+    return ((tgt-model)**2).mean()
+
 a = 1.0
 b = 1.0
-
+lsta = []
 for i in range(100):
     for bmii, tari in zip(bmi, target):
         a, b = back_prop(bmii, tari, a, b)
+        lsta.append(a)
 
 # f, ax = plt.subplots()
 # ax.scatter(bmi, target)
 # xs = np.linspace(-0.10, 0.15, 10)
 # ax.plot(xs, myline(xs, a, b))
 # plt.show()
-ans = 0
-for i in range(len(bmi)):
-    ans += ((target[i]-(a*bmi[i]+b))**2)**0.5
-
-print(ans)
+# ans = 0
+# for i in range(len(bmi)):
+#     ans += ((target[i]-(a*bmi[i]+b))**2)**0.5
+# e = target - myline(bmi, a, b)
+# print(ans)
 
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score, mean_squared_error
 
-# reg = LinearRegression().fit(bmi[:, np.newaxis], target)
+reg = LinearRegression().fit(bmi[:, np.newaxis], target)
 # print(reg.coef_, reg.intercept_)
 
+errarray = target - myline(bmi, reg.coef_[0], reg.intercept_)
+# sns.distplot(errarray)
+# f, ax = plt.subplots()
+# ax.plot(lsta)
+# plt.show()
+
+# print(sse(target, myline(bmi, reg.coef_[0], reg.intercept_)))
+# print(mse(target, myline(bmi, reg.coef_[0], reg.intercept_)))
+# print(mean_squared_error(target, myline(bmi, reg.coef_[0], reg.intercept_)))
+# print(r2_score(target, myline(bmi, reg.coef_[0], reg.intercept_)))
+
+def r2(tgt, model):
+    return 1-sse(tgt, model)/sse(tgt, tgt.mean())
+print(r2(target, myline(bmi, reg.coef_[0], reg.intercept_)))
