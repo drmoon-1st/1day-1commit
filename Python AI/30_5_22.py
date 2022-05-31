@@ -106,38 +106,10 @@ from yaml import load
 
 
 ####
-
 class Node:
     def __init__(self, data, next=None) -> None:
         self.data = data
         self.next = next
-
-    def insert(self, pos, val):
-        pass
-
-    def insert_first(self, val):
-        pass
-
-    def insert_last(self, val):
-        pass
-
-    def clear(self):
-        pass
-
-    def get(self, pos):
-        pass
-
-    def len(self):
-        pass
-
-    def is_empty(self):
-        pass
-
-    def is_full(self):
-        pass
-
-    def display(self):
-        pass
 
 #######
 
