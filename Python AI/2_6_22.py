@@ -82,7 +82,6 @@ def heap_sort(arr):
 
 ###############
 
-from cv2 import DFT_REAL_OUTPUT
 import pandas as pd
 import numpy as np
 import random as rnd
@@ -106,4 +105,9 @@ df_test = pd.read_csv('test.csv', header=0)
 '''['PassengerId' 'Survived' 'Pclass' 'Name' 'Sex' 'Age' 'SibSp' 'Parch'
  'Ticket' 'Fare' 'Cabin' 'Embarked']'''
 
- 
+# print(df_train.head(10))
+
+# print(df_train.info())
+# print(df_test.info())
+
+# print(df_train.describe(include=['O']))
